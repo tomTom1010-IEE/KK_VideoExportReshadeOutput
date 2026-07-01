@@ -44,7 +44,7 @@ namespace VideoExport
     [BepInProcess("StudioNEOV2")]
 #endif
     [BepInDependency(Screencap.ScreenshotManager.GUID, Screencap.ScreenshotManager.Version)]
-    [BepInDependency(KKAPI.KoikatuAPI.GUID, KKAPI.KoikatuAPI.VersionConst)]
+    [BepInDependency(KKAPI.KoikatuAPI.GUID)]
 #endif
     public partial class VideoExport : GenericPlugin
     {
