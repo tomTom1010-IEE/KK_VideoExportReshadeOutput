@@ -1450,10 +1450,19 @@ namespace VideoExport
                     }
                     else
                     {
-                        byte[] frame = screenshotPlugin.Capture(savePath);
-                        if (frame != null)
-                            File.WriteAllBytes(savePath, frame);
-                        generatedFrames++;
+                        if (screenshotPlugin is ScreencapPlugin screencapPlugin && screencapPlugin.CaptureToFile(savePath))
+                        {
+                            generatedFrames++;
+                        }
+                        else
+                        {
+                            byte[] frame = screenshotPlugin.Capture(savePath);
+                            if (frame != null)
+                            {
+                                File.WriteAllBytes(savePath, frame);
+                                generatedFrames++;
+                            }
+                        }
                     }
 #else
                     byte[] frame = screenshotPlugin.Capture(savePath);

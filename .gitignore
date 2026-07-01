@@ -1,3 +1,31 @@
+## OfflineReShadeCapture scoped repository
+##
+## This working tree is a HSPlugins fork, but this repository is intended to
+## publish only the VideoExport changes. Keep unrelated HSPlugins source out of
+## new commits while preserving the root build files needed to compile
+## VideoExport.KKS locally.
+/*
+!/.gitignore
+!/.gitattributes
+!/Directory.Build.props
+!/nuget.config
+!/HSPlugins.sln
+!/HSPlugins-Legacy.sln
+!/README.md
+!/LICENSE
+!/release.ps1
+!/PostBuild.bat.example
+!/VideoExport.Core/
+!/VideoExport.Core/**
+!/VideoExport.AI/
+!/VideoExport.AI/**
+!/VideoExport.HS2/
+!/VideoExport.HS2/**
+!/VideoExport.KK/
+!/VideoExport.KK/**
+!/VideoExport.KKS/
+!/VideoExport.KKS/**
+
 # Created by https://www.gitignore.io/api/visualstudio
 
 ### VisualStudio ###
