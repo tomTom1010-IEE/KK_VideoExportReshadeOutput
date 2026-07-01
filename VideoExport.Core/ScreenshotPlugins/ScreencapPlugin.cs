@@ -191,6 +191,8 @@ namespace VideoExport.ScreenshotPlugins
         public void OnEndRecording()
         {
             FirePostCapture();
+            if (_captureType == CaptureType.NormalDepth)
+                FlushOfflineReShadeDepthReadbacks();
         }
 
         public bool CaptureToFile(string path)
@@ -284,6 +286,28 @@ namespace VideoExport.ScreenshotPlugins
             catch
             {
                 return ".png";
+            }
+        }
+
+        private static void FlushOfflineReShadeDepthReadbacks()
+        {
+            var method = AccessTools.Method(typeof(ScreenshotManager), "FlushOfflineReShadeDepthReadbacks");
+            if (method == null)
+                return;
+
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                method.Invoke(null, null);
+            }
+            catch (Exception ex)
+            {
+                VideoExport.Logger.LogWarning("Normal + Depth final depth flush failed: " + ex);
+            }
+            finally
+            {
+                sw.Stop();
+                VideoExport.Logger.LogInfo($"[OfflineReShadeTiming] VE final depth flush total = {sw.Elapsed.TotalMilliseconds:0.0} ms");
             }
         }
 

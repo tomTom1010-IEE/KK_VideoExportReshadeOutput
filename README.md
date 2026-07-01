@@ -1,3 +1,62 @@
+# KK/KKS VideoExport ReShade Output
+
+This fork publishes the VideoExport changes needed to export color/depth frame
+sequences through the modified ScreenshotManager/Screencap plugin.
+
+## What This Adds
+
+- A `Normal + Depth` ScreenshotManager capture type in VideoExport.
+- Per-frame color PNG plus depth sidecar output.
+- Final delayed depth flush so the native D3D11 staging queue can finish after
+  the last frame.
+
+## Install
+
+1. Install the matching Offline ReShade ScreenshotManager/Screencap fork first.
+   VideoExport calls `Screencap.ScreenshotManager.ExportOfflineReShadeInputs`;
+   without that method, `Normal + Depth` cannot work.
+2. Install this fork's `VideoExport.dll` for KK or KKS into
+   `BepInEx\plugins`.
+3. In VideoExport, set ScreenshotManager capture type to `Normal + Depth`.
+
+For KK, the Screencap-side `OfflineDepthD3D11Bridge.dll` must also be installed
+next to `Screencap.dll` or configured through ScreenshotManager's
+`Offline ReShade Export > D3D11 bridge DLL path`.
+
+## Output
+
+VideoExport frame folders contain:
+
+```text
+UserData\VideoExport\Frames\<timestamp>\
+  0.png
+  0.depth.rfloat
+  1.png
+  1.depth.rfloat
+  metadata.json
+```
+
+Depth files use the format reported by `metadata.json`. The current main path
+for KK and KKS is:
+
+- extension: `.rfloat`
+- encoding: `rfloat32_device_depth_little_endian`
+- row order: `bottom_to_top`
+- value: D3D/Unity device depth in `0..1`
+
+The actual depth capture algorithm lives in the Screencap fork. This plugin is
+only the VideoExport integration layer.
+
+## Performance Notes
+
+`Normal + Depth` is slower than normal ScreenshotManager color capture because
+each frame writes an additional full-resolution depth sidecar and, on KK, waits
+for the D3D11 bridge to queue or flush delayed readbacks. The current bridge
+uses a staging readback ring so most frames save depth asynchronously; the last
+frame performs a blocking final flush.
+
+---
+
 # HSPlugins
 A collection of useful studio plugins.
 
