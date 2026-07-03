@@ -23,6 +23,11 @@ For KK, the Screencap-side `OfflineDepthD3D11Bridge.dll` must also be installed
 next to `Screencap.dll` or configured through ScreenshotManager's
 `Offline ReShade Export > D3D11 bridge DLL path`.
 
+KK `Normal + Depth` is most reliable from a Studio camera/lens view. If depth
+sidecars are missing, switch from free view to a camera view, disable MSAA, and
+disable Optimize in Background before recording again. KKS does not use the
+native bridge and is unchanged by these KK-specific notes.
+
 ## Output
 
 VideoExport frame folders contain:

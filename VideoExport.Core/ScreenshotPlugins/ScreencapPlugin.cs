@@ -216,6 +216,13 @@ namespace VideoExport.ScreenshotPlugins
             }
             GUILayout.EndHorizontal();
 
+#if KOIKATSU && !SUNSHINE
+            if (_captureType == CaptureType.NormalDepth)
+            {
+                GUILayout.Label("KK Normal + Depth: use a Studio camera/lens view for reliable depth. If depth is missing, disable MSAA and Optimize in Background.");
+            }
+#endif
+
             GUILayout.BeginHorizontal();
             _in3d = GUILayout.Toggle(_in3d, VideoExport._currentDictionary.GetString(VideoExport.TranslationKey.Screencap3D));
             GUILayout.EndHorizontal();
@@ -264,7 +271,12 @@ namespace VideoExport.ScreenshotPlugins
 
             try
             {
-                return (bool)method.Invoke(null, new object[] { colorPath, depthPath, metadataPath, null, null, null });
+                var result = (bool)method.Invoke(null, new object[] { colorPath, depthPath, metadataPath, null, null, null });
+#if KOIKATSU && !SUNSHINE
+                if (!result)
+                    VideoExport.Logger.LogWarning("Normal + Depth did not receive a KK depth sidecar. Use a Studio camera/lens view; if it still fails, disable MSAA and Optimize in Background.");
+#endif
+                return result;
             }
             catch (Exception ex)
             {
