@@ -1,7 +1,11 @@
+[中文使用说明](README.zh-CN.md) | English
+
 # KK/KKS VideoExport ReShade Output
 
 This fork publishes the VideoExport changes needed to export color/depth frame
-sequences through the modified ScreenshotManager/Screencap plugin.
+sequences through the modified ScreenshotManager/Screencap plugin. It is the
+matching VideoExport companion for `KK_ScreenshotManagerReshadeOutpuit`; the
+actual color/depth capture algorithm lives in the Screencap fork.
 
 ## What This Adds
 
@@ -15,18 +19,40 @@ sequences through the modified ScreenshotManager/Screencap plugin.
 1. Install the matching Offline ReShade ScreenshotManager/Screencap fork first.
    VideoExport calls `Screencap.ScreenshotManager.ExportOfflineReShadeInputs`;
    without that method, `Normal + Depth` cannot work.
-2. Install this fork's `VideoExport.dll` for KK or KKS into
+2. Before installing or testing VideoExport, press `LeftCtrl + F10` with the
+   Screencap plugin alone and confirm that
+   `UserData\cap\OfflineReShade\coloroutput.png`,
+   `UserData\cap\OfflineReShade\depthoutput.rfloat`, and
+   `UserData\cap\OfflineReShade\metadata.json` are generated correctly.
+3. Install this fork's `VideoExport.dll` for KK or KKS into
    `BepInEx\plugins`.
-3. In VideoExport, set ScreenshotManager capture type to `Normal + Depth`.
+4. In VideoExport, set ScreenshotManager capture type to `Normal + Depth`.
 
 For KK, the Screencap-side `OfflineDepthD3D11Bridge.dll` must also be installed
 next to `Screencap.dll` or configured through ScreenshotManager's
 `Offline ReShade Export > D3D11 bridge DLL path`.
 
+Use the same KK Screencap release variant that works for normal `LeftCtrl + F10`
+captures:
+
+- **KK Stable Path**: try first. It is lighter and fastest when the environment
+  can keep D3D11 depth hooks stable.
+- **KK Compatibility Bridge**: use if stable does not generate
+  `depthoutput.rfloat`, only works for the first capture after restart, or
+  intermittently misses depth during VideoExport.
+
+Do not mix stable and compatibility DLLs. `Screencap.dll` and
+`OfflineDepthD3D11Bridge.dll` must come from the same package.
+
 KK `Normal + Depth` is most reliable from a Studio camera/lens view. If depth
 sidecars are missing, switch from free view to a camera view, disable MSAA, and
 disable Optimize in Background before recording again. KKS does not use the
 native bridge and is unchanged by these KK-specific notes.
+
+VideoExport uses ScreenshotManager's render screenshot settings for output
+resolution. If a frame sequence has the wrong size, fix the ScreenshotManager
+render resolution/downscaling settings first, then record again. Always inspect
+one exported frame pair before sending the sequence to the Offline ReShade app.
 
 ## Output
 
