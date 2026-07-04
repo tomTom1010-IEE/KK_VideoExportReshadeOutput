@@ -29,6 +29,9 @@ UserData\cap\OfflineReShade\metadata.json
 ## 安装
 
 1. 安装匹配的 Offline ReShade Screencap/ScreenshotManager fork。
+   Screencap 不是直接放在 `BepInEx\plugins` 根目录，而是替换 BepisPlugins 子目录里的原版文件：
+   - KK：`BepInEx\plugins\KK_BepisPlugins\Screencap.dll`
+   - KKS：`BepInEx\plugins\KKS_BepisPlugins\KKS_Screencap.dll`
 2. 确认 `LeftCtrl + F10` 已经能正确生成 color/depth。
 3. 把本仓库对应游戏版本的 `VideoExport.dll` 放入 `BepInEx\plugins`。
 4. 打开 VideoExport。

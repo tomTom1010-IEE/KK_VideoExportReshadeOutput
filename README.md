@@ -19,6 +19,9 @@ actual color/depth capture algorithm lives in the Screencap fork.
 1. Install the matching Offline ReShade ScreenshotManager/Screencap fork first.
    VideoExport calls `Screencap.ScreenshotManager.ExportOfflineReShadeInputs`;
    without that method, `Normal + Depth` cannot work.
+   Replace the original Screencap DLL in the BepisPlugins subfolder:
+   - KK: `BepInEx\plugins\KK_BepisPlugins\Screencap.dll`
+   - KKS: `BepInEx\plugins\KKS_BepisPlugins\KKS_Screencap.dll`
 2. Before installing or testing VideoExport, press `LeftCtrl + F10` with the
    Screencap plugin alone and confirm that
    `UserData\cap\OfflineReShade\coloroutput.png`,
@@ -29,8 +32,8 @@ actual color/depth capture algorithm lives in the Screencap fork.
 4. In VideoExport, set ScreenshotManager capture type to `Normal + Depth`.
 
 For KK, the Screencap-side `OfflineDepthD3D11Bridge.dll` must also be installed
-next to `Screencap.dll` or configured through ScreenshotManager's
-`Offline ReShade Export > D3D11 bridge DLL path`.
+next to `BepInEx\plugins\KK_BepisPlugins\Screencap.dll` or configured through
+ScreenshotManager's `Offline ReShade Export > D3D11 bridge DLL path`.
 
 Use the same KK Screencap release variant that works for normal `LeftCtrl + F10`
 captures:
